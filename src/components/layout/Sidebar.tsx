@@ -15,6 +15,7 @@ import {
   UserCog
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useLanguage } from '../../stores/useLanguage';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -23,36 +24,37 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navigation = [
     {
-      name: 'Dashboard',
+      name: t('dashboard'),
       href: '/dashboard',
       icon: Home,
     },
     {
-      name: 'Bookings',
+      name: t('bookings'),
       icon: BookOpen,
       children: [
-        { name: 'Create Booking', href: '/bookings/create', icon: Plus },
-        { name: 'All Bookings', href: '/bookings', icon: List },
+        { name: t('create_booking'), href: '/bookings/create', icon: Plus },
+        { name: t('all_bookings'), href: '/bookings', icon: List },
       ],
     },
     {
-      name: 'Bags',
+      name: t('bags'),
       icon: Package,
       children: [
-        { name: 'Create Bag', href: '/bags/create', icon: PackagePlus },
-        { name: 'Receive Bag', href: '/bags/receive', icon: PackageCheck },
-        { name: 'Received Bags', href: '/bags/received', icon: List },
+        { name: t('create_bag'), href: '/bags/create', icon: PackagePlus },
+        { name: t('receive_bag'), href: '/bags/receive', icon: PackageCheck },
+        { name: t('received_bags'), href: '/bags/received', icon: List },
       ],
     },
     {
-      name: 'Admin',
+      name: t('admin'),
       icon: Users,
       children: [
-        { name: 'Branch Mapping', href: '/admin/branch-mapping', icon: UserCog },
-        { name: 'Operators', href: '/admin/operators', icon: Users },
+        { name: t('branch_mapping'), href: '/admin/branch-mapping', icon: UserCog },
+        { name: t('operators'), href: '/admin/operators', icon: Users },
       ],
     },
   ];
@@ -72,15 +74,15 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Sidebar */}
       <div
         className={cn(
-          'fixed top-0 left-0 z-50 h-screen w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 lg:flex-shrink-0 flex flex-col',
+          'fixed top-0 left-0 z-50 h-screen w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 lg:flex-shrink-0 flex flex-col',
           isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 lg:hidden">
-          <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 lg:hidden">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Menu</h2>
           <button
             onClick={onToggle}
-            className="p-2 rounded-md hover:bg-gray-100"
+            className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="h-5 w-5" />
           </button>
@@ -104,7 +106,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 </Link>
               ) : (
                 <>
-                  <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-900">
+                  <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-900 dark:text-white">
                     <item.icon className="h-5 w-5" />
                     {item.name}
                   </div>
@@ -116,8 +118,8 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
                         className={cn(
                           'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
                           isActivePath(child.href)
-                            ? 'bg-green-100 text-green-700'
-                            : 'text-gray-600 hover:bg-gray-100'
+                            ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
+                            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                         )}
                       >
                         <child.icon className="h-4 w-4" />

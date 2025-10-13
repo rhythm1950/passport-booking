@@ -118,15 +118,15 @@ export function EditBooking() {
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Edit Booking</h1>
-          <p className="text-gray-600">Update delivery information for booking #{id}</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('edit_booking')}</h1>
+          <p className="text-gray-600">{t('delivery_information')} #{id}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column - Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-6">
-          <h2 className="text-lg font-semibold text-gray-900">Delivery Information</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t('delivery_information')}</h2>
           
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -137,7 +137,7 @@ export function EditBooking() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label htmlFor="delivery_branch_code" className="block text-sm font-medium text-gray-700 mb-2">
-                Delivery Branch Code *
+                {t('branch_code')} *
               </label>
               <input
                 {...register('delivery_branch_code')}
@@ -154,7 +154,7 @@ export function EditBooking() {
 
             <div className="md:col-span-2">
               <label htmlFor="receiver_name" className="block text-sm font-medium text-gray-700 mb-2">
-                Receiver Name *
+                {t('name')} *
               </label>
               <input
                 {...register('receiver_name')}
@@ -171,7 +171,7 @@ export function EditBooking() {
 
             <div>
               <label htmlFor="division" className="block text-sm font-medium text-gray-700 mb-2">
-                Division *
+                {t('address')} *
               </label>
               <select
                 {...register('division')}
@@ -289,7 +289,7 @@ export function EditBooking() {
               disabled={isLoading}
               className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium disabled:opacity-50"
             >
-              Cancel
+              {t('cancel')}
             </button>
             
             <button
@@ -299,7 +299,7 @@ export function EditBooking() {
               data-testid="edit-booking-submit"
             >
               {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isLoading ? 'Updating...' : 'Update Booking'}
+              {isLoading ? t('updating') : t('update')}
             </button>
           </div>
         </form>

@@ -5,10 +5,12 @@ import { DataTable } from '../../components/table/DataTable';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { DateRangePicker } from '../../components/form/DateRangePicker';
 import { formatDate } from '../../lib/date';
+import { useLanguage } from '../../stores/useLanguage';
 import * as bookingsService from '../../services/bookings';
 import type { BookingListItem, Page } from '../../types';
 
 export function BookingsList() {
+  const { t } = useLanguage();
   const [data, setData] = useState<Page<BookingListItem>>({
     data: [],
     total: 0,
@@ -62,30 +64,30 @@ export function BookingsList() {
   const columns = [
     {
       key: 'app_or_order_id' as keyof BookingListItem,
-      label: 'Application ID',
+      label: t('application_id'),
       className: 'font-medium',
     },
     {
       key: 'name' as keyof BookingListItem,
-      label: 'Name',
+      label: t('name'),
     },
     {
       key: 'phone' as keyof BookingListItem,
-      label: 'Phone',
+      label: t('phone'),
     },
     {
       key: 'status' as keyof BookingListItem,
-      label: 'Status',
+      label: t('status'),
       render: (value: any) => <StatusBadge status={value} />,
     },
     {
       key: 'delivery_branch_code' as keyof BookingListItem,
-      label: 'Branch',
+      label: 'Branch', // Keep English for now
       render: (value: any) => value || '-',
     },
     {
       key: 'created_at' as keyof BookingListItem,
-      label: 'Created',
+      label: t('created'),
       render: (value: any) => formatDate(value),
     },
   ];
@@ -94,8 +96,8 @@ export function BookingsList() {
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Passport Bookings</h1>
-          <p className="text-gray-600">Manage all passport booking requests</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('bookings')}</h1>
+          <p className="text-gray-600">Manage all passport booking requests</p> {/* Keep English for now */}
         </div>
         
         <button
@@ -103,7 +105,7 @@ export function BookingsList() {
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2 font-medium"
         >
           <Plus className="h-4 w-4" />
-          New Booking
+          {t('new_booking')}
         </button>
       </div>
 
@@ -115,7 +117,7 @@ export function BookingsList() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search bookings..."
+                placeholder={t('search_bookings')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
@@ -129,7 +131,7 @@ export function BookingsList() {
             className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2"
           >
             <Filter className="h-4 w-4" />
-            Filters
+            {t('filters')}
           </button>
           
           <button
@@ -138,7 +140,7 @@ export function BookingsList() {
             data-testid="bookings-search-btn"
           >
             <Search className="h-4 w-4" />
-            Search
+            {t('search')}
           </button>
         </div>
 
@@ -146,7 +148,7 @@ export function BookingsList() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-200">
             <div>
               <label htmlFor="status-filter" className="block text-sm font-medium text-gray-700 mb-1">
-                Status
+                {t('status')}
               </label>
               <select
                 id="status-filter"
@@ -154,12 +156,12 @@ export function BookingsList() {
                 onChange={(e) => setStatus(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
               >
-                <option value="">All Statuses</option>
-                <option value="initial">Initial</option>
-                <option value="pre_booked">Pre-booked</option>
-                <option value="BAGGED">Bagged</option>
-                <option value="CLOSED">Closed</option>
-                <option value="RECEIVED">Received</option>
+                <option value="">All Statuses</option> {/* Keep English for now */}
+                <option value="initial">{t('initial')}</option>
+                <option value="pre_booked">{t('pre_booked')}</option>
+                <option value="BAGGED">{t('bagged')}</option>
+                <option value="CLOSED">{t('closed')}</option>
+                <option value="RECEIVED">{t('received')}</option>
               </select>
             </div>
             
@@ -189,7 +191,7 @@ export function BookingsList() {
           
           <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2">
             <Download className="h-4 w-4" />
-            Export
+            {t('export')}
           </button>
         </div>
 
@@ -206,7 +208,7 @@ export function BookingsList() {
           onRowClick={handleRowClick}
           emptyState={
             <div>
-              <p className="text-gray-500 text-lg mb-2">No bookings found</p>
+              <p className="text-gray-500 text-lg mb-2">{t('no_bookings_found')}</p>
               <p className="text-gray-400 text-sm mb-4">
                 {search || status || dateFrom || dateTo
                   ? 'Try adjusting your search filters'
@@ -219,7 +221,7 @@ export function BookingsList() {
                   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 inline-flex items-center gap-2"
                 >
                   <Plus className="h-4 w-4" />
-                  Create First Booking
+                  {t('create_booking')}
                 </button>
               )}
             </div>

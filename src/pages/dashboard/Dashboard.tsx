@@ -11,6 +11,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../../stores/useAuth';
+import { useLanguage } from '../../stores/useLanguage';
 import * as bookingsService from '../../services/bookings';
 
 interface DashboardStats {
@@ -22,6 +23,7 @@ interface DashboardStats {
 
 export function Dashboard() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [stats, setStats] = useState<DashboardStats>({
     totalBookings: 0,
     todayBookings: 0,
@@ -53,28 +55,28 @@ export function Dashboard() {
 
   const statCards = [
     {
-      title: 'Total Bookings',
+      title: t('total_bookings'),
       value: stats.totalBookings.toLocaleString(),
       icon: BookOpen,
       color: 'bg-blue-500',
       change: '+12% from last month',
     },
     {
-      title: 'Today\'s Bookings',
+      title: t('todays_bookings'),
       value: stats.todayBookings.toString(),
       icon: Clock,
       color: 'bg-green-600',
       change: '+5 from yesterday',
     },
     {
-      title: 'Pending Verifications',
+      title: t('pending_verifications'),
       value: stats.pendingVerifications.toString(),
       icon: Users,
       color: 'bg-yellow-500',
       change: '-8% from last week',
     },
     {
-      title: 'Completed Deliveries',
+      title: t('completed_deliveries'),
       value: stats.completedDeliveries.toLocaleString(),
       icon: CheckCircle,
       color: 'bg-emerald-500',
@@ -84,29 +86,29 @@ export function Dashboard() {
 
   const quickActions = [
     {
-      title: 'Create New Booking',
-      description: 'Add a new passport booking request',
+      title: t('create_booking'),
+      description: 'Add a new passport booking request', // Keep English for now
       href: '/bookings/create',
       icon: Plus,
       color: 'bg-green-600 hover:bg-green-700',
     },
     {
-      title: 'Create New Bag',
-      description: 'Create a new delivery bag',
+      title: t('create_bag'),
+      description: 'Create a new delivery bag', // Keep English for now
       href: '/bags/create',
       icon: Package,
       color: 'bg-blue-600 hover:bg-blue-700',
     },
     {
-      title: 'View All Bookings',
-      description: 'Browse and manage existing bookings',
+      title: t('all_bookings'),
+      description: 'Browse and manage existing bookings', // Keep English for now
       href: '/bookings',
       icon: BookOpen,
       color: 'bg-purple-600 hover:bg-purple-700',
     },
     {
-      title: 'Receive Bags',
-      description: 'Process incoming delivery bags',
+      title: t('receive_bag'),
+      description: 'Process incoming delivery bags', // Keep English for now
       href: '/bags/receive',
       icon: Package,
       color: 'bg-orange-600 hover:bg-orange-700',
@@ -117,7 +119,7 @@ export function Dashboard() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('dashboard')}</h1>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -141,10 +143,10 @@ export function Dashboard() {
       {/* Welcome Header */}
       <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl p-6 text-white">
         <h1 className="text-3xl font-bold mb-2">
-          Welcome back, {user?.name}!
+          {t('welcome_back')}, {user?.name}!
         </h1>
         <p className="text-green-100 text-lg">
-          Here's what's happening with your passport bookings today.
+          {t('welcome_message')}
         </p>
       </div>
 
@@ -171,7 +173,7 @@ export function Dashboard() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('quick_actions')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action) => (
             <Link
@@ -189,7 +191,7 @@ export function Dashboard() {
               <p className="text-sm text-gray-600 mb-4">{action.description}</p>
               
               <div className="flex items-center text-green-600 text-sm font-medium">
-                Get started
+                {t('open')}
                 <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>
@@ -199,7 +201,7 @@ export function Dashboard() {
 
       {/* Recent Activity */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('recent_activity')}</h2>
         <div className="space-y-4">
           {[
             { action: 'New booking created', id: 'APP001', time: '2 minutes ago', status: 'success' },

@@ -87,18 +87,18 @@ export function BookingDetailsPage() {
         <div className="flex-1">
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold text-gray-900">
-              Booking #{booking.app_or_order_id}
+              {t('booking_details')} #{booking.app_or_order_id}
             </h1>
             <StatusBadge status={booking.status} />
           </div>
-          <p className="text-gray-600">Created on {formatDateTime(booking.created_at)}</p>
+          <p className="text-gray-600">{t('created')} {formatDateTime(booking.created_at)}</p>
         </div>
         <button
           onClick={() => navigate(`/bookings/${booking.id}/edit`)}
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2"
         >
           <Edit className="h-4 w-4" />
-          Edit
+          {t('edit')}
         </button>
       </div>
 
@@ -109,16 +109,16 @@ export function BookingDetailsPage() {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <User className="h-5 w-5" />
-              Applicant Information
+              {t('applicant_information')}
             </h2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-500">Full Name</label>
+                  <label className="text-sm font-medium text-gray-500">{t('full_name')}</label>
                   <p className="text-gray-900 font-medium">{booking.name}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-500">Phone</label>
+                  <label className="text-sm font-medium text-gray-500">{t('phone')}</label>
                   <p className="text-gray-900 font-medium flex items-center gap-1">
                     <Phone className="h-4 w-4" />
                     {booking.phone}
@@ -128,17 +128,17 @@ export function BookingDetailsPage() {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-500">Father's Name</label>
+                  <label className="text-sm font-medium text-gray-500">{t('fathers_name')}</label>
                   <p className="text-gray-900">{booking.father_name}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-500">Mother's Name</label>
+                  <label className="text-sm font-medium text-gray-500">{t('mothers_name')}</label>
                   <p className="text-gray-900">{booking.mother_name}</p>
                 </div>
               </div>
               
               <div>
-                <label className="text-sm font-medium text-gray-500">Address</label>
+                <label className="text-sm font-medium text-gray-500">{t('address')}</label>
                 <p className="text-gray-900 flex items-start gap-1">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
                   {booking.address}
@@ -149,14 +149,14 @@ export function BookingDetailsPage() {
 
           {/* Emergency Contact */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Emergency Contact</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('emergency_contact')}</h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-500">Name</label>
+                <label className="text-sm font-medium text-gray-500">{t('name')}</label>
                 <p className="text-gray-900">{booking.emergency_contact_name}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Phone</label>
+                <label className="text-sm font-medium text-gray-500">{t('phone')}</label>
                 <p className="text-gray-900 flex items-center gap-1">
                   <Phone className="h-4 w-4" />
                   {booking.emergency_contact_phone}
@@ -170,16 +170,16 @@ export function BookingDetailsPage() {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <Package className="h-5 w-5" />
-                Delivery Information
+                {t('delivery_information')}
               </h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium text-gray-500">Branch Code</label>
+                    <label className="text-sm font-medium text-gray-500">{t('branch_code')}</label>
                     <p className="text-gray-900 font-medium">{booking.delivery_branch_code || '-'}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-500">Receiver Name</label>
+                    <label className="text-sm font-medium text-gray-500">{t('name')}</label>
                     <p className="text-gray-900">{booking.receiver_name || '-'}</p>
                   </div>
                 </div>
@@ -225,7 +225,7 @@ export function BookingDetailsPage() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            Status Timeline
+            {t('status_timeline')}
           </h2>
           
           <div className="space-y-4">
@@ -263,7 +263,7 @@ export function BookingDetailsPage() {
             <div className="mt-6 pt-6 border-t border-gray-200">
               <div className="text-center">
                 <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-500">Waiting for next status update...</p>
+                <p className="text-sm text-gray-500">{t('loading')}</p>
               </div>
             </div>
           )}

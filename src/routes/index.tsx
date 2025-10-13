@@ -18,6 +18,13 @@ import { ReceivedBagsList } from '../pages/bags/ReceivedList';
 import { BranchMapping } from '../pages/admin/BranchMapping';
 import { Operators } from '../pages/admin/Operators';
 
+// Profile Pages
+import { Profile } from '../pages/profile/Profile';
+import { AccountSettings } from '../pages/profile/AccountSettings';
+import { Notifications } from '../pages/profile/Notifications';
+import { Privacy } from '../pages/profile/Privacy';
+import { HelpSupport } from '../pages/profile/HelpSupport';
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -128,6 +135,47 @@ export function AppRoutes() {
         <PrivateRoute>
           <Layout>
             <Operators />
+          </Layout>
+        </PrivateRoute>
+      } />
+
+      {/* Profile Routes */}
+      <Route path="/profile" element={
+        <PrivateRoute>
+          <Layout>
+            <Profile />
+          </Layout>
+        </PrivateRoute>
+      } />
+      
+      <Route path="/profile/settings" element={
+        <PrivateRoute>
+          <Layout>
+            <AccountSettings />
+          </Layout>
+        </PrivateRoute>
+      } />
+      
+      <Route path="/profile/notifications" element={
+        <PrivateRoute>
+          <Layout>
+            <Notifications />
+          </Layout>
+        </PrivateRoute>
+      } />
+      
+      <Route path="/profile/privacy" element={
+        <PrivateRoute>
+          <Layout>
+            <Privacy />
+          </Layout>
+        </PrivateRoute>
+      } />
+      
+      <Route path="/profile/help" element={
+        <PrivateRoute>
+          <Layout>
+            <HelpSupport />
           </Layout>
         </PrivateRoute>
       } />

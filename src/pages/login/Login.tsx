@@ -5,6 +5,7 @@ import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { loginSchema } from '../../lib/forms';
 import { useAuth } from '../../stores/useAuth';
+import { useLanguage } from '../../stores/useLanguage';
 import * as authService from '../../services/auth';
 import type { z } from 'zod';
 
@@ -18,6 +19,7 @@ export function Login() {
   const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
   
   const from = location.state?.from?.pathname || '/dashboard';
 
@@ -49,63 +51,63 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto space-y-8">
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center mb-4">
             <span className="text-white font-bold text-2xl">PB</span>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-          <p className="mt-2 text-gray-600">Sign in to Passport Booking System</p>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{t('welcome_back')}</h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">{t('sign_in')} {t('passport_booking')} System</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+              <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
             </div>
           )}
 
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-              Username
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Username {/* Keep English for now */}
             </label>
             <input
               {...register('username')}
               type="text"
               id="username"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
               placeholder="Enter your username"
               data-testid="login-username"
             />
             {errors.username && (
-              <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.username.message}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Password
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Password {/* Keep English for now */}
             </label>
             <div className="relative">
               <input
                 {...register('password')}
                 type={showPassword ? 'text' : 'password'}
                 id="password"
-                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
                 placeholder="Enter your password"
                 data-testid="login-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.password.message}</p>
             )}
           </div>
 
@@ -116,12 +118,12 @@ export function Login() {
             data-testid="login-submit"
           >
             {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? t('loading') : t('sign_in')}
           </button>
 
-          <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-            <p className="text-xs text-gray-600 font-medium">Demo Credentials:</p>
-            <div className="text-xs text-gray-500 space-y-1">
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-2">
+            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">Demo Credentials:</p>
+            <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
               <p><strong>Admin:</strong> admin / admin123</p>
               <p><strong>Operator:</strong> operator / operator123</p>
             </div>

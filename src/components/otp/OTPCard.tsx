@@ -130,14 +130,14 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
         ) : (
           <XCircle className="h-5 w-5 text-gray-400" />
         )}
-        <h3 className="font-semibold text-gray-900">OTP Verification</h3>
+        <h3 className="font-semibold text-gray-900">{t('otp_verification')}</h3>
       </div>
 
       {state.verified ? (
         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-green-600" />
-            <span className="text-green-800 font-medium">Phone number verified successfully!</span>
+            <span className="text-green-800 font-medium">{t('phone_verified')}</span>
           </div>
         </div>
       ) : (
@@ -145,7 +145,7 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
           <div className="space-y-4">
             <div>
               <label htmlFor="delivery-phone" className="block text-sm font-medium text-gray-700 mb-1">
-                Delivery Phone Number
+                {t('delivery_phone')}
               </label>
               <input
                 id="delivery-phone"
@@ -162,7 +162,7 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
             {state.applied && (
               <div>
                 <label htmlFor="otp-code" className="block text-sm font-medium text-gray-700 mb-1">
-                  OTP Code
+                  {t('otp_code')}
                 </label>
                 <input
                   id="otp-code"
@@ -175,7 +175,7 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
                 />
                 {countdown && (
                   <p className="mt-1 text-xs text-gray-500">
-                    OTP expires in: <span className="font-mono font-medium">{countdown}</span>
+                    {t('otp_expires')}: <span className="font-mono font-medium">{countdown}</span>
                   </p>
                 )}
               </div>
@@ -190,7 +190,7 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
                   data-testid="otp-apply-btn"
                 >
                   {loading === 'apply' && <RefreshCw className="h-4 w-4 animate-spin" />}
-                  Apply OTP
+                  {t('apply_otp')}
                 </button>
               ) : (
                 <>
@@ -201,7 +201,7 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
                     data-testid="otp-verify-btn"
                   >
                     {loading === 'verify' && <RefreshCw className="h-4 w-4 animate-spin" />}
-                    Verify
+                    {t('verify_otp')}
                   </button>
                   
                   <button
@@ -211,7 +211,7 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
                     data-testid="otp-resend-btn"
                   >
                     {loading === 'resend' && <RefreshCw className="h-4 w-4 animate-spin" />}
-                    Resend
+                    {t('resend_otp')}
                   </button>
                   
                   <button
@@ -221,14 +221,14 @@ export function OTPCard({ bookingId, className }: OTPCardProps) {
                     data-testid="otp-retry-btn"
                   >
                     {loading === 'retry' && <RefreshCw className="h-4 w-4 animate-spin" />}
-                    Retry Info
+                    {t('retry_info')}
                   </button>
                 </>
               )}
             </div>
 
             <div className="text-sm text-gray-600 space-y-1">
-              <p>Attempts remaining: <span className="font-medium">{state.attempts_left}</span></p>
+              <p>{t('attempts_remaining')}: <span className="font-medium">{state.attempts_left}</span></p>
               {isBlocked && (
                 <p className="text-red-600">
                   Blocked until: {new Date(state.blocked_until!).toLocaleTimeString()}

@@ -12,7 +12,7 @@ export function Layout({ children }: LayoutProps) {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
       
       <div className="flex-1 flex flex-col min-w-0">
