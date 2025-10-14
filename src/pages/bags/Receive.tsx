@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, PackageCheck, ArrowLeft } from 'lucide-react';
 import { receiveBagSchema } from '../../lib/forms';
-import * as bagsService from '../../services/bags';
+import * as bagService from '../../features/bag/service';
 import type { z } from 'zod';
 
 type ReceiveBagFormData = z.infer<typeof receiveBagSchema>;
@@ -30,9 +30,12 @@ export function ReceiveBag() {
     setSuccess('');
     
     try {
-      const result = await bagsService.receiveMock(data);
-      setSuccess(`Bag received successfully! ${result.items} items processed.`);
-      
+      const resp = await bagService.receiveBag(data);
+      const items = resp?.data?.items ?? resp?.data?.data?.items;
+      const message = resp?.data?.message ?? resp?.data?.data?.message ?? (items ? `Bag received successfully! ${items} items processed.` : 'Bag received successfully');
+
+      setSuccess(message as string);
+
       // Reset form and redirect after delay
       setTimeout(() => {
         reset();

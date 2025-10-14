@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2, Lock, ArrowLeft, Package, Plus } from 'lucide-react';
-import * as bagsService from '../../services/bags';
+import * as bagService from '../../features/bag/service';
 
 export function CloseBag() {
   const { bagId } = useParams<{ bagId: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleClose = async () => {
@@ -17,9 +17,10 @@ export function CloseBag() {
     setError('');
     
     try {
-      await bagsService.closeMock({ bag_id: bagId });
-      setSuccess(true);
-      
+      const resp = await bagService.closeBag({ bag_id: bagId });
+      const message = resp?.data?.message ?? resp?.data?.data?.message ?? 'Bag closed successfully';
+      setSuccess(message as string);
+
       // Redirect after success
       setTimeout(() => {
         navigate('/bags/received');

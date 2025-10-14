@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Save, ArrowLeft, Package } from 'lucide-react';
+import { Loader2, ArrowLeft, Package } from 'lucide-react';
 import { createBagSchema } from '../../lib/forms';
-import * as bagsService from '../../services/bags';
+import * as bagService from '../../features/bag/service';
 import type { z } from 'zod';
 
 type CreateBagFormData = z.infer<typeof createBagSchema>;
@@ -30,8 +30,11 @@ export function CreateBag() {
     setSuccess('');
     
     try {
-      const result = await bagsService.createMock(data);
-      setSuccess(`Bag created successfully with ID: ${result.bag_id}`);
+      const resp = await bagService.createBag(data);
+      // Try to read message and bag id from common response shapes
+      const message = resp?.data?.message ?? resp?.data?.data?.message ?? '';
+      const bagId = resp?.data?.bag_id ?? resp?.data?.data?.bag_id ?? resp?.data?.data?.bag?.id;
+      setSuccess(message || `Bag created successfully with ID: ${bagId ?? 'unknown'}`);
       
       // Reset form after success
       setTimeout(() => {

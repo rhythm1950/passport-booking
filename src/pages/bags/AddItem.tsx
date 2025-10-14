@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Loader2, Plus, ArrowLeft, Package } from 'lucide-react';
+import { Loader2, Plus, ArrowLeft } from 'lucide-react';
 import { addBagItemSchema } from '../../lib/forms';
-import * as bagsService from '../../services/bags';
+import * as bagService from '../../features/bag/service';
 import type { z } from 'zod';
 
 type AddBagItemFormData = z.infer<typeof addBagItemSchema>;
@@ -38,8 +38,9 @@ export function AddBagItem() {
     setSuccess('');
     
     try {
-      await bagsService.addItemMock(data);
-      setSuccess('Item added to bag successfully!');
+      const resp = await bagService.addItemToBag(data);
+      const message = resp?.data?.message ?? resp?.data?.data?.message ?? 'Item added to bag successfully!';
+      setSuccess(message as string);
       
       // Reset form after success (except bag_id)
       setTimeout(() => {
