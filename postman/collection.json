@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "Passport Booking - Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/login", "host": ["{{baseUrl}}"], "path": ["login"] },
+            "body": { "mode": "raw", "raw": "{ \"username\": \"user\", \"password\": \"pass\" }" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/booking/create", "host": ["{{baseUrl}}"], "path": ["booking","create"] },
+            "body": { "mode": "raw", "raw": "{ \"app_or_order_id\": \"ord_1\", \"name\": \"John\", \"phone\": \"0123456789\", \"address\": \"Street 1\" }" }
+          }
+        },
+        {
+          "name": "Update Booking",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/booking/create/update/:id", "host": ["{{baseUrl}}"], "path": ["booking","create","update",":id"] },
+            "body": { "mode": "raw", "raw": "{ \"receiver_name\": \"Jane\", \"street_address\": \"New St\" }" }
+          }
+        },
+        {
+          "name": "List Bookings",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/booking/list?page=1&per_page=10", "host": ["{{baseUrl}}"], "path": ["booking","list"], "query": [{"key":"page","value":"1"},{"key":"per_page","value":"10"}] } }
+        },
+        {
+          "name": "Booking Details",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/booking/details/:id", "host": ["{{baseUrl}}"], "path": ["booking","details",":id"] } }
+        }
+      ]
+    },
+    {
+      "name": "OTP",
+      "item": [
+        {
+          "name": "Apply Delivery Phone",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/booking/delivery-phone", "host": ["{{baseUrl}}"], "path": ["booking","delivery-phone"] }, "body": { "mode": "raw", "raw": "{ \"phone\": \"0123456789\" }" } }
+        },
+        {
+          "name": "Verify Delivery Phone",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/booking/verify-delivery-phone", "host": ["{{baseUrl}}"], "path": ["booking","verify-delivery-phone"] }, "body": { "mode": "raw", "raw": "{ \"phone\": \"0123456789\", \"code\": \"123456\" }" } }
+        },
+        {
+          "name": "Resend OTP",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/booking/resend-otp", "host": ["{{baseUrl}}"], "path": ["booking","resend-otp"] }, "body": { "mode": "raw", "raw": "{ \"phone\": \"0123456789\" }" } }
+        },
+        {
+          "name": "OTP Retry Info",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/booking/otp-retry-info", "host": ["{{baseUrl}}"], "path": ["booking","otp-retry-info"] }, "body": { "mode": "raw", "raw": "{ \"phone\": \"0123456789\" }" } }
+        }
+      ]
+    },
+    {
+      "name": "Bags",
+      "item": [
+        { "name": "Create Bag", "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/bag/create" }, "body": { "mode": "raw", "raw": "{}" } } },
+        { "name": "Add Item To Bag", "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/bag/item_add" }, "body": { "mode": "raw", "raw": "{}" } } },
+        { "name": "Close Bag", "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/bag/close" }, "body": { "mode": "raw", "raw": "{}" } } },
+        { "name": "Receive Bag", "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/bag/receive" }, "body": { "mode": "raw", "raw": "{}" } } },
+        { "name": "Branch List", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/bag/branch-list/" } } },
+        { "name": "Branch Mapping", "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/bag/branch-mapping" }, "body": { "mode": "raw", "raw": "{}" } } },
+        { "name": "Operator List", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/bag/operator-list" } } }
+      ]
+    }
+  ]
+}
