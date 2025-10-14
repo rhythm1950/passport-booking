@@ -18,6 +18,7 @@ import { ReceivedBagsList } from '../pages/bags/ReceivedList';
 import { BranchMapping } from '../pages/admin/BranchMapping';
 import { Operators } from '../pages/admin/Operators';
 import { BranchList } from '../pages/admin/BranchList';
+import { RmsBagLists } from '../pages/bags/RmsBagLists';
 
 // Profile Pages
 import { Profile } from '../pages/profile/Profile';
@@ -119,6 +120,14 @@ export function AppRoutes() {
         <PrivateRoute>
           <Layout>
             <ReceivedBagsList />
+          </Layout>
+        </PrivateRoute>
+      } />
+
+      <Route path="/bags/rms" element={
+        <PrivateRoute>
+          <Layout>
+            <RmsBagLists />
           </Layout>
         </PrivateRoute>
       } />
