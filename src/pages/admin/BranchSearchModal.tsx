@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, X, MapPin, Building } from 'lucide-react';
-import * as adminService from '../../services/admin';
+import * as bagService from '../../features/bag/service';
 import type { Branch } from '../../types';
 
 interface BranchSearchModalProps {
@@ -22,8 +22,10 @@ export function BranchSearchModal({ isOpen, onClose, onSelect }: BranchSearchMod
 
     setLoading(true);
     try {
-      const branches = await adminService.branchSearchMock(searchQuery);
-      setResults(branches);
+      const resp = await bagService.branchList({ q: searchQuery });
+      // The bag API may return { data: [branches], pagination } or plain array
+      const data = resp?.data?.data ?? resp?.data ?? [];
+      setResults(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Branch search failed:', error);
       setResults([]);

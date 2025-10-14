@@ -1,4 +1,4 @@
-import React from 'react';
+// routes
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { Layout } from '../components/layout/Layout';
@@ -17,6 +17,7 @@ import { ReceiveBag } from '../pages/bags/Receive';
 import { ReceivedBagsList } from '../pages/bags/ReceivedList';
 import { BranchMapping } from '../pages/admin/BranchMapping';
 import { Operators } from '../pages/admin/Operators';
+import { BranchList } from '../pages/admin/BranchList';
 
 // Profile Pages
 import { Profile } from '../pages/profile/Profile';
@@ -127,6 +128,14 @@ export function AppRoutes() {
         <PrivateRoute>
           <Layout>
             <BranchMapping />
+          </Layout>
+        </PrivateRoute>
+      } />
+      
+      <Route path="/admin/branches" element={
+        <PrivateRoute>
+          <Layout>
+            <BranchList />
           </Layout>
         </PrivateRoute>
       } />

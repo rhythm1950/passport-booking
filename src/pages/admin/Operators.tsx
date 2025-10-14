@@ -1,21 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, UserCog, Plus, Users } from 'lucide-react';
 import { DataTable } from '../../components/table/DataTable';
-import { formatDateTime } from '../../lib/date';
-import * as adminService from '../../services/admin';
+import * as bagService from '../../features/bag/service';
+import { useAuth } from '../../stores/useAuth';
 import type { Operator } from '../../types';
 
 export function Operators() {
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { permissions } = useAuth();
+
+  // small display formatter for last_login
+  const formatDateTimeLocal = (iso?: string) => {
+    if (!iso) return 'Never';
+    try {
+      const d = new Date(iso);
+      return d.toLocaleString();
+    } catch {
+      return iso;
+    }
+  };
 
   useEffect(() => {
     const fetchOperators = async () => {
       try {
-        const result = await adminService.operatorsMock();
-        setOperators(result);
+        const resp = await bagService.operatorList();
+        const data = resp?.data?.data ?? resp?.data ?? [];
+        setOperators(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Failed to fetch operators:', error);
       } finally {
@@ -39,37 +52,50 @@ export function Operators() {
     {
       key: 'role' as keyof Operator,
       label: 'Role',
-      render: (value: any) => (
+      render: (value: unknown) => (
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
-          {value}
+          {String(value)}
         </span>
       ),
     },
     {
       key: 'branch_code' as keyof Operator,
       label: 'Branch Code',
-      render: (value: any) => value || '-',
+      render: (value: unknown) => (value ? String(value) : '-'),
       className: 'font-mono',
     },
     {
       key: 'status' as keyof Operator,
       label: 'Status',
-      render: (value: any) => (
+      render: (value: unknown) => (
         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
           value === 'active' 
             ? 'bg-green-100 text-green-800' 
             : 'bg-gray-100 text-gray-800'
         }`}>
-          {value}
+          {String(value)}
         </span>
       ),
     },
     {
       key: 'last_login' as keyof Operator,
       label: 'Last Login',
-      render: (value: any) => value ? formatDateTime(value) : 'Never',
+      render: (value: unknown) => value ? formatDateTimeLocal(String(value)) : 'Never',
     },
   ];
+
+  const allowed = permissions.includes('admin') || permissions.includes('bags.manage') || permissions.includes('operators.view');
+
+  if (!allowed) {
+    return (
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
+          <h2 className="text-lg font-semibold">Access denied</h2>
+          <p className="text-sm text-gray-600">You do not have permission to view operators.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">

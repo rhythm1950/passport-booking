@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, UserCog, ArrowLeft, Search } from 'lucide-react';
 import { branchMappingSchema } from '../../lib/forms';
 import { BranchSearchModal } from './BranchSearchModal';
-import * as adminService from '../../services/admin';
+import * as bagService from '../../features/bag/service';
+import { useAuth } from '../../stores/useAuth';
 import type { z } from 'zod';
 
 type BranchMappingFormData = z.infer<typeof branchMappingSchema>;
@@ -16,19 +17,33 @@ export function BranchMapping() {
   const [success, setSuccess] = useState('');
   const [showBranchSearch, setShowBranchSearch] = useState(false);
   const navigate = useNavigate();
+  const { permissions } = useAuth();
+
+  // permission guard: require admin or bags.manage
+  const allowed = permissions.includes('admin') || permissions.includes('bags.manage');
 
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<BranchMappingFormData>({
     resolver: zodResolver(branchMappingSchema),
   });
 
-  const branchCode = watch('branch_code');
+  // const branchCode = watch('branch_code'); // Not used, keep for future if needed
+
+  if (!allowed) {
+    return (
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
+          <h2 className="text-lg font-semibold">Access denied</h2>
+          <p className="text-sm text-gray-600">You do not have permission to manage branch mappings.</p>
+        </div>
+      </div>
+    );
+  }
 
   const onSubmit = async (data: BranchMappingFormData) => {
     setIsLoading(true);
@@ -36,8 +51,9 @@ export function BranchMapping() {
     setSuccess('');
     
     try {
-      await adminService.branchMappingMock(data);
-      setSuccess('Branch mapping created successfully!');
+      const resp = await bagService.branchMapping(data);
+      const message = resp?.data?.message ?? 'Branch mapping created successfully!';
+      setSuccess(message as string);
       
       // Reset form after success
       setTimeout(() => {
@@ -51,7 +67,7 @@ export function BranchMapping() {
     }
   };
 
-  const handleBranchSelect = (branch: any) => {
+  const handleBranchSelect = (branch: { code: string }) => {
     setValue('branch_code', branch.code);
     setShowBranchSearch(false);
   };
